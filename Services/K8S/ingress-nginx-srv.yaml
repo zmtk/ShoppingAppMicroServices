@@ -1,0 +1,42 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-srv
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: 'true'
+spec:
+  ingressClassName: nginx
+  rules:
+    - host: shoppingapp.com
+      http:
+        paths:
+          - path: /api/catalog
+            pathType: Prefix
+            backend:
+              service:
+                name: catalogapi-clusterip-srv
+                port:
+                  number: 80
+          - path: /api/identity/
+            pathType: Prefix
+            backend:
+              service:
+                name: identityapi-clusterip-srv
+                port:
+                  number: 80
+          - path: /api/basket
+            pathType: Prefix
+            backend:
+              service:
+                name: basketapi-clusterip-srv
+                port:
+                  number: 80
+          - path: /api/order
+            pathType: Prefix
+            backend:
+              service:
+                name: orderingapi-clusterip-srv
+                port:
+                  number: 80
+
+              

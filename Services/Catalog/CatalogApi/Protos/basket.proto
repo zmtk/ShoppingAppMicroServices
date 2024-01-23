@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+option csharp_namespace = "BasketApi";
+
+package basketgrpc;
+
+service BasketGrpc {
+
+    rpc AddToBasket(AddToBasketRequest) returns (AddToBasketResponse);
+
+}
+
+message AddToBasketRequest {
+    int32 userId = 1;
+    int32 productId = 2;
+    string name = 3;
+    double price = 4;
+}
+
+message AddToBasketResponse {
+    int32 userId = 1;
+    string message = 2;
+}

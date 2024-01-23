@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: identityapi-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: identityapi
+  template:
+    metadata:
+      labels:
+        app: identityapi
+    spec:
+      containers:
+      - name: identityapi
+        image: zukurnaz/sa_identityapi:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: identityapi-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: identityapi
+  ports:
+  - name: identityapi
+    protocol: TCP
+    port: 80
+    targetPort: 8080
+  - name: identitygrpc
+    protocol: TCP
+    port: 666
+    targetPort: 666

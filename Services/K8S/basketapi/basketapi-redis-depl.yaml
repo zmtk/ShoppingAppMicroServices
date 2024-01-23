@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basketapi-redis-depl
+spec:
+  selector:
+    matchLabels:
+      app: redisdb
+  template:
+    metadata:
+      labels:
+        app: redisdb
+    spec:
+      containers:
+        - name: redisdb
+          image: redis
+          ports:
+            - containerPort: 6379
+          volumeMounts:
+          - name: redis-data
+            mountPath: /data
+      volumes:
+      - name: redis-data
+        persistentVolumeClaim:
+          claimName: basketapi-redisdb-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: basketapi-redis-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: redisdb
+  ports:
+  - name: redisdb
+    protocol: TCP
+    port: 6379
+    targetPort: 6379
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: basketapi-redis-loadbalancer
+spec:
+  type: LoadBalancer
+  selector:
+    app: redisdb
+  ports:
+  - protocol: TCP
+    port: 6379
+    targetPort: 6379

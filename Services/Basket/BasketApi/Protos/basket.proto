@@ -1,0 +1,98 @@
+syntax = "proto3";
+
+option csharp_namespace = "BasketApi";
+
+import "google/api/annotations.proto";
+
+package basketgrpc;
+
+service BasketGrpc {
+
+    rpc AddToBasket(AddToBasketRequest) returns (AddToBasketResponse);
+
+    rpc EmptyBasket(EmptyBasketRequest) returns (EmptyBasketResponse)
+    {
+        option (google.api.http) = {
+            delete: "/api/basket"
+        };
+    }
+
+    rpc GetBasket(GetBasketRequest) returns (GetBasketResponse)
+    {
+        option (google.api.http) = {
+            get: "/api/basket"
+        };
+    }
+
+    rpc SetProductQuantity(SetProductQuantityRequest) returns (SetProductQuantityResponse)
+    {
+        option (google.api.http) = {
+            put: "/api/basket",
+            body: "*"
+        };
+    }
+
+    // DeleteProduct -> Request UserID, ProductID
+    rpc DeleteProduct(DeleteProductRequest) returns (DeleteProductResponse)
+    {
+        option (google.api.http) = {
+            delete: "/api/basket/{id}",
+        };
+    }
+
+}
+
+message AddToBasketRequest {
+    int32 userId = 1;
+    int32 productId = 2;
+    string name = 3;
+    double price = 4;
+}
+
+message AddToBasketResponse {
+    int32 userId = 1;
+    string message = 2;
+}
+
+
+message SetProductQuantityRequest {
+    int32 productId = 2;
+    int32 quantity = 3;
+}
+
+message SetProductQuantityResponse {
+    int32 updatedQuantity = 1;
+    double updatedPrice = 2;
+    double updatedTotal = 3;
+}
+
+message DeleteProductRequest {
+    int32 id = 1;
+}
+
+message DeleteProductResponse {
+    double updatedTotal = 1;
+}
+
+message GetBasketItemResponse {
+    int32 productId = 1;
+    string name = 2;
+    double price = 3;
+    int32 quantity = 4;
+    double total = 5;
+    bool inactive = 6;
+}
+
+message GetBasketRequest {}
+
+message GetBasketResponse {
+    string userId = 1;
+    double basketTotal = 2;
+    repeated GetBasketItemResponse basketItems = 3;
+}
+
+message EmptyBasketRequest {}
+
+message EmptyBasketResponse {
+    bool completed = 1;
+}

@@ -1,0 +1,15 @@
+#deploy ingress-nginx
+kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml
+
+#create mssql secret
+kubectl create secret generic shoppingapp-mssql --from-literal=SA_PASSWORD="LONG3ST_pa55w0rd"
+
+#create postgres secret
+kubectl create secret generic orderingapi-postgres --from-literal=PG_PASSWORD="LONG1SH_pa55w0rd"
+
+2023-09-21 14:40:45.71 spid36s     ERROR: Unable to set system administrator 
+password: Password validation failed. The password does not meet SQL Server password policy requirements because 
+it is not complex enough. The password must be at least 8 characters long and contain characters from three of the following
+four sets: Uppercase letters, Lowercase letters, Base 10 digits, and Symbols..
+
+~/.microsoft/usersecrets/3d996590-7b82-4580-bf2b-0642c42c6933/secrets.json

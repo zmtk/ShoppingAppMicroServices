@@ -1,0 +1,96 @@
+syntax = "proto3";
+
+option csharp_namespace = "OrderingApi";
+
+import "google/api/annotations.proto";
+import "google/protobuf/timestamp.proto";
+
+package orderinggrpc;
+
+service OrderingGrpc {
+    rpc CreateOrder(CreateOrderRequest) returns (GetOrderResponse)
+    {
+        option (google.api.http) = {
+            post: "/api/order",
+            body: "*"
+        };
+    }
+
+    rpc GetOrder(GetOrderRequest) returns (GetOrderResponse)
+    {
+        option (google.api.http) = {
+            get: "/api/order/{id}"
+        };
+    }
+
+    rpc GetUserOrders(GetUserOrdersRequest) returns (GetUserOrdersResponse)
+    {
+        option (google.api.http) = {
+            get: "/api/order"
+        };
+    }
+}
+
+message CreateOrderRequest {
+    int32 addressId = 1;
+}
+message CreateOrderResponse {
+    string message = 1;
+}
+
+message GetUserOrdersRequest {}
+
+message GetUserOrdersResponse{
+    repeated GetOrderResponse Orders = 1;
+}
+
+
+message GetOrderRequest {
+    int32 id = 1;
+}
+
+message GetOrderResponse {
+    int32 id = 1;
+    string userId = 2;
+    google.protobuf.Timestamp date = 3;
+    string orderStatus = 4;
+    double totalPrice = 5;
+    AddressResponse deliveryAddress = 6;
+    repeated BasketItemResponse basketItems = 7;
+    // string message = 4;
+}
+
+message AddressResponse {
+    string firstName = 3;
+    string lastName = 4;
+    string phoneNumber = 5;
+    string city = 6;
+    string district = 7;
+    string neighborhood = 8;
+    string streetAddress = 9;
+    string addressType = 10;
+}
+
+message BasketItemResponse {
+    int32 productId = 1;
+    string name = 2;
+    double price = 3;
+    int32 quantity = 4;
+    double total = 5;
+}
+
+// message GetBasketItemResponse {
+//     int32 productId = 1;
+//     string name = 2;
+//     double price = 3;
+//     int32 quantity = 4;
+//     double total = 5;
+// }
+
+// message GetBasketRequest {}
+
+// message GetBasketResponse {
+//     string userId = 1;
+//     double basketTotal = 2;
+//     repeated GetBasketItemResponse basketItems = 3;
+// }

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catalogapi-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: catalogapi
+  template:
+    metadata:
+      labels:
+        app: catalogapi
+    spec:
+      containers:
+      - name: catalogapi
+        image: zukurnaz/sa_catalogapi:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: catalogapi-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: catalogapi
+  ports:
+  - name: catalogapi
+    protocol: TCP
+    port: 80
+    targetPort: 8080

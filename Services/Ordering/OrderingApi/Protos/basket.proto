@@ -1,0 +1,35 @@
+syntax = "proto3";
+
+option csharp_namespace = "BasketApi";
+
+package basketgrpc;
+
+service BasketGrpc {
+
+    rpc GetBasket(GetBasketRequest) returns (GetBasketResponse);
+    rpc EmptyBasket(EmptyBasketRequest) returns (EmptyBasketResponse);
+    
+}
+
+message GetBasketItemResponse {
+    int32 productId = 1;
+    string name = 2;
+    double price = 3;
+    int32 quantity = 4;
+    double total = 5;
+    bool inactive = 6;
+}
+
+message GetBasketRequest {}
+
+message GetBasketResponse {
+    string userId = 1;
+    double basketTotal = 2;
+    repeated GetBasketItemResponse basketItems = 3;
+}
+
+message EmptyBasketRequest {}
+
+message EmptyBasketResponse {
+    bool completed = 1;
+}

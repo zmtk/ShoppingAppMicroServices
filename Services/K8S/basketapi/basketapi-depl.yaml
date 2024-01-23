@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: basketapi-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: basketapi
+  template:
+    metadata:
+      labels:
+        app: basketapi
+    spec:
+      containers:
+      - name: basketapi
+        image: zukurnaz/sa_basketapi:latest
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: basketapi-clusterip-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: basketapi
+  ports:
+  - name: basketapi
+    protocol: TCP
+    port: 80
+    targetPort: 8080
+  - name: basketgrpc
+    protocol: TCP
+    port: 666
+    targetPort: 666
