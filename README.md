@@ -1,5 +1,9 @@
 # ShoppingAppMicroServices
+
+![Reference Application architecture diagram](img/app_architecture.png)
+
 Clone Repository, To Use your code edit deployment yaml files accordingly to use your docker account.  
+
 
 Docker > Settings > Kubernetes > Enable Kubernetes
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.8.2/deploy/static/provider/cloud/deploy.yaml  
